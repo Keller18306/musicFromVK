@@ -4,15 +4,12 @@ import { cacheAudio } from '../cache'
 
 export async function searchMusic(q: string, page: number = 1, count: number = 10, id: number) {
     const {
-        count: vkCount,
         items: music
     } = await vk.api.audio.search({
         q: q,
         offset: (page - 1) * count,
         count: count
     })
-
-    const pages: number = Math.ceil(vkCount / count)
 
     const selected: AudioItem[] = music.splice(0, count)
 
@@ -38,5 +35,5 @@ export async function searchMusic(q: string, page: number = 1, count: number = 1
         })
     }
 
-    return { keyboard, page, pages, audios }
+    return { keyboard, page, audios }
 }
