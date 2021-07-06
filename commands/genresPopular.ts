@@ -17,7 +17,13 @@ export default class CMD extends BaseCommand {
 
     public permission: Permission = 'bot.get.popular'
 
-    public messages: Message[] = []
+    public messages: Message[] = [
+        {
+            caseSensitive: false,
+            startsWith: false,
+            message: 'Популярное (по жанрам)'
+        }
+    ]
 
     constructor() {
         super()

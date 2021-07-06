@@ -48,6 +48,14 @@ export default class CMD extends BaseCommand {
                     ],
                     [
                         {
+                            text: 'Популярное (все жанры)'
+                        },
+                        {
+                            text: 'Популярное (по жанрам)'
+                        }
+                    ],
+                    [
+                        {
                             text: 'Новинки'
                         },
                         {
