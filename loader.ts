@@ -17,6 +17,8 @@ export function getCommands() {
 
         if(cmd.id == null) continue;
 
+        if(Object.keys(cmds).includes(cmd.id)) throw new Error(`cmd id '${cmd.id}' is already registred`)
+
         cmds[cmd.id] = cmd
     }
 
@@ -37,6 +39,8 @@ export function getCallbacks() {
 
         if(cb.id == null) continue;
 
+        if(Object.keys(callbacks).includes(cb.id)) throw new Error(`callback id '${cb.id}' is already registred`)
+
         callbacks[cb.id] = cb
     }
 
@@ -56,6 +60,8 @@ export function getInlines() {
         const inline: BaseInline = new inlineClass()
 
         if(inline.id == null) continue;
+
+        if(Object.keys(inlines).includes(inline.id)) throw new Error(`inline id '${inline.id}' is already registred`)
 
         inlines[inline.id] = inline
     }
