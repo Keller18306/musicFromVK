@@ -246,7 +246,7 @@ export function audioInfoParser(buffer: Buffer): { kbps: number, khz: number, mo
         const l = AudioFrameLength(a.audioVersion, a.layer, a.bitrate, a.frequency, a.padding)
 
         if (a.frameSync != '1'.repeat(11)) {
-            console.log(a)
+            console.log('frame error', a)
             break;
         }
 
