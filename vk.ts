@@ -101,6 +101,13 @@ export type AudioSendStartEventParams = {
     audio_id: string
 }
 
+export type AudioGetPopularParams = {
+    only_end?: Flag | boolean
+    genre_id?: number
+    offset?: number
+    count?: number
+}
+
 export type AudioGetResponse = {
     count: number
     items: AudioItem[]
@@ -159,6 +166,8 @@ export type AudioSendStartEventResponse = {
     has_music_subscription: Flag
 }
 
+export type AudioGetPopularResponse = AudioItem[]
+
 interface NewAPI extends API {
     audio: {
         add(params: AudioAddParams): Promise<AudioAddResponse>
@@ -168,12 +177,37 @@ interface NewAPI extends API {
         search(params: AudioSearchParams): Promise<AudioSearchResponse>
         getPlaylistById(params: AudioGetPlaylistByIdParams): Promise<AudioGetPlaylistByIdResponse>,
         getRecommendations(params: AudioGetRecommendationsParams): Promise<AudioGetRecommendationsResponse>,
-        sendStartEvent(params: AudioSendStartEventParams): Promise<AudioSendStartEventResponse>
+        sendStartEvent(params: AudioSendStartEventParams): Promise<AudioSendStartEventResponse>,
+        getPopular(params: AudioGetPopularParams): Promise<AudioGetPopularResponse>
     }
 }
 
 interface NewVK extends VK {
     api: NewAPI
+}
+
+export const genres: { [id: number]: string } = {
+    1: 'Rock',
+    2: 'Pop',
+    3: 'Rap & Hip-Hop',
+    4: 'Easy Listening',
+    5: 'Dance & House',
+    6: 'Instrumental',
+    7: 'Metal',
+    8: 'Dubstep',
+    9: 'Jazz & Blues',
+    10: 'Drum & Bass',
+    11: 'Trance',
+    12: 'Chanson',
+    13: 'Ethnic',
+    14: 'Acoustic & Vocal',
+    15: 'Reggae',
+    16: 'Classical',
+    17: 'Indie Pop',
+    18: 'Other',
+    19: 'Speech',
+    21: 'Alternative',
+    22: 'Electropop & Disco',
 }
 
 const vk = new VK({

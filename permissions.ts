@@ -2,16 +2,16 @@ import { randomBytes } from "crypto"
 import { existsSync, writeFileSync } from "fs"
 import { Context } from "telegraf"
 
-export const Permissions: string[] = ['bot.get.music', 'bot.get.audio', 'bot.add.admin', 'bot.base.commands',
+export const Permissions: Permission[] = ['bot.get.music', 'bot.get.audio', 'bot.add.admin', 'bot.base.commands',
     'bot.eval', 'bot.debug', 'bot.search.music', 'bot.get.playlist',
     'bot.get.recommendations', 'bot.exec.js', 'bot.add.to.music', 'bot.send.start.event',
-    'bot.delete.music', 'bot.get.page', 'bot.set.group'
+    'bot.delete.music', 'bot.get.page', 'bot.set.group', 'bot.get.popular'
 ]
 
 export type Permission = 'bot.get.music' | 'bot.get.audio' | 'bot.add.admin' | 'bot.base.commands' |
     'bot.eval' | 'bot.debug' | 'bot.search.music' | 'bot.get.playlist' |
     'bot.get.recommendations' | 'bot.exec.js' | 'bot.add.to.music' | 'bot.send.start.event' |
-    'bot.delete.music' | 'bot.get.page' | 'bot.set.group'
+    'bot.delete.music' | 'bot.get.page' | 'bot.set.group' | 'bot.get.popular'
 
 export type JSONUsers = {
     [id: string]: {
@@ -37,7 +37,7 @@ export const groups: {
         permissions: [
             'bot.get.music', 'bot.get.playlist',
             'bot.search.music', 'bot.get.recommendations',
-            'bot.get.audio'
+            'bot.get.audio', 'bot.get.popular'
         ]
     },
     owner: {
