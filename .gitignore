@@ -1,3 +1,9 @@
+# Bot
+cached.json
+users.json
+config.ts
+downloaded/
+
 # Logs
 logs
 *.log
