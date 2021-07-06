@@ -1,4 +1,5 @@
-import { writeFileSync } from "fs"
+import { randomBytes } from "crypto"
+import { existsSync, writeFileSync } from "fs"
 import { Context } from "telegraf"
 
 export const Permissions: string[] = ['bot.get.music', 'bot.get.audio', 'bot.add.admin', 'bot.base.commands',
@@ -55,10 +56,18 @@ export const groups: {
     }
 }
 
-const json: JSONUsers = require('./users.json')
+const json: JSONUsers = existsSync('./users.json') ? require('./users.json') : {}
 
 function saveUsers() {
     writeFileSync('./users.json', JSON.stringify(json, null, 4))
+}
+
+if(!existsSync('./users.json')) saveUsers()
+
+export let setupKey: string | null = null;
+if(Object.keys(json).length == 0) {
+    setupKey = randomBytes(24).toString('hex')
+    console.log(`[SETUP] Для получения прав администратора напишите боту: /setup ${setupKey}`)
 }
 
 export function getGroupPermissions(groupid: string, _current: Permission[] = []): Permission[] {
