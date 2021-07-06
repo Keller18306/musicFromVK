@@ -9,11 +9,13 @@
   "author": "keller",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^15.12.2",
-    "@types/request": "^2.48.5",
     "request": "^2.88.2",
     "telegraf": "^4.3.0",
     "vk-io": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^15.12.2",
+    "@types/request": "^2.48.5"
   },
   "nodemonConfig": {
     "ignore": [
