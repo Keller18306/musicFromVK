@@ -92,7 +92,7 @@ export default class CMD extends BaseCommand {
 
         try {
             result = await runInNewContext(text, undefined, {
-                timeout: 10
+                timeout: 100
             })
         } catch (e) {
             error = e.toString()
