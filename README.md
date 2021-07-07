@@ -90,31 +90,31 @@ ts-node .
 
 ## Доступные команды
 
-|      ID     |   Команда  | Разрешение |    Описание    |
-|-------------|------------|------------|----------------|
-|start|/start|bot.base.commands|Открыть клавиатуру|
-|getId|/id|bot.base.commands|Получает id текущего аккаунта|
-|math|/math|bot.base.commands|Посчитать пример|
-|ping|/ping|bot.base.commands|Проверяет работоспособноть бота и задержки к серверам Telegram|
-|checkUpdate|/checkUpdate|bot.base.commands|Проверяет наличие новой версии бота|
-|setup|/setup|bot.base.commands|Первоначальная настройка прав администратора|
-|myPermissions|/myPermissions|bot.base.commands|Узнать ваши текущие права|
-|getMyCmds|/help|bot.base.commands|Узнать доступные вам команды|
-|myGroup|/myGroup|bot.base.commands|Узнать вашу текущую группу|
-|getCmdPerms|/getCmdPerms|bot.base.commands|Узнать все команды и разрешения к ним|
-|getGroup|/getGroup|bot.base.commands|Узнать разрешения группы|
-|getGroups|/getGroups|bot.base.commands|Узнать все группы|
-|getPerms|/getPerms|bot.base.commands|Узнать все разрешения|
-|dailyPlaylist|/getDaily|bot.get.playlist|Получает дневной плейлист с аккаунта|
-|eval|/eval|bot.eval|Выполнение js кода в боте|
-|execJs|/js|bot.exec.js|Выполнение js кода|
-|genresPopular|/genresPopular|bot.get.popular|Получает жанры популярной музыки|
-|getMusic|/getMusic|bot.get.music|Получает всю музыку с аккаунта|
-|getPopular|/getPopular|bot.get.popular|Получает популярную музыку|
-|getRecommendations|/getRecommendations|bot.get.recommendations|Получает рекомендации с аккаунта|
-|newPlaylist|/getNew|bot.get.playlist|Получает плейлист с новинками с аккаунта|
-|removeKeyboard|/removeKeyboard|bot.debug|Удаляет клавиатуру|
-|searchMusic|/search|bot.search.music|Поиск музыки в вк|
-|setGroup|/setGroup|bot.set.group|Установить группу человеку|
-|weekPlaylist|/getWeek|bot.get.playlist|Получает недельный плейлист с аккаунта|
-|test|/test|bot.debug|Тестовая команда|
+|      ID     |   Команда | Минимальная группа  | Разрешение |    Описание    |
+|-------------|-----------|---------------------|------------|----------------|
+|start|/start|guest|bot.base.commands|Открыть клавиатуру|
+|getId|/id|guest|bot.base.commands|Получает id текущего аккаунта|
+|math|/math|guest|bot.base.commands|Посчитать пример|
+|ping|/ping|guest|bot.base.commands|Проверяет работоспособноть бота и задержки к серверам Telegram|
+|checkUpdate|/checkUpdate|guest|bot.base.commands|Проверяет наличие новой версии бота|
+|setup|/setup|guest|bot.base.commands|Первоначальная настройка прав администратора|
+|myPermissions|/myPermissions|guest|bot.base.commands|Узнать ваши текущие права|
+|getMyCmds|/help|guest|bot.base.commands|Узнать доступные вам команды|
+|myGroup|/myGroup|guest|bot.base.commands|Узнать вашу текущую группу|
+|getCmdPerms|/getCmdPerms|guest|bot.base.commands|Узнать все команды и разрешения к ним|
+|getGroup|/getGroup|guest|bot.base.commands|Узнать разрешения группы|
+|getGroups|/getGroups|guest|bot.base.commands|Узнать все группы|
+|getPerms|/getPerms|guest|bot.base.commands|Узнать все разрешения|
+|getMusic|/getMusic|member|bot.get.music|Получает всю музыку с аккаунта|
+|dailyPlaylist|/getDaily|member|bot.get.playlist|Получает дневной плейлист с аккаунта|
+|weekPlaylist|/getWeek|member|bot.get.playlist|Получает недельный плейлист с аккаунта|
+|newPlaylist|/getNew|member|bot.get.playlist|Получает плейлист с новинками с аккаунта|
+|getRecommendations|/getRecommendations|member|bot.get.recommendations|Получает рекомендации с аккаунта|
+|getPopular|/getPopular|member|bot.get.popular|Получает популярную музыку|
+|genresPopular|/genresPopular|member|bot.get.popular|Получает жанры популярной музыки|
+|searchMusic|/search|member|bot.search.music|Поиск музыки в вк|
+|setGroup|/setGroup|admin|bot.set.group|Установить группу человеку|
+|eval|/eval|admin|bot.eval|Выполнение js кода в боте|
+|execJs|/js|admin|bot.exec.js|Выполнение js кода|
+|removeKeyboard|/removeKeyboard|admin|bot.debug|Удаляет клавиатуру|
+|test|/test|admin|bot.debug|Тестовая команда|
