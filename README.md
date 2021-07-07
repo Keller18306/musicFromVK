@@ -79,3 +79,42 @@ ts-node .
 8 - Открыть похожую музыку
 9 - Отправить событие о прослушивании (вероятнее всего вк это использует для формирования рекомендаций)
 ```
+
+## Доступные группы
+| Группа | Разрешения | Описание |
+|--------|------------|----------|
+| guest  |bot.base.commands|Группа выдаётся всем, кто пишет боту (для экономии места автоматически в файл не заносится)|
+| member |`всех групп выше` + bot.get.music, bot.get.playlist, bot.search.music, bot.get.recommendations, bot.get.audio, bot.get.popular|Группа имеет доступ к прослушиванию музыки|
+| owner  |`всех групп выше` + bot.add.to.music, bot.send.start.event, bot.delete.music, bot.get.page|Группа имеет доступ к редактировании музыки и различным взаимодейтсвием с аккаунтом|
+| admin  |`всех групп выше` + bot.eval, bot.debug, bot.add.admin, bot.exec.js, bot.set.group|Полный доступ ко всем командам|
+
+## Доступные команды
+
+|      ID     |   Команда  | Разрешение |    Описание    |
+|-------------|------------|------------|----------------|
+|start|/start|bot.base.commands|Открыть клавиатуру|
+|getId|/id|bot.base.commands|Получает id текущего аккаунта|
+|math|/math|bot.base.commands|Посчитать пример|
+|ping|/ping|bot.base.commands|Проверяет работоспособноть бота и задержки к серверам Telegram|
+|checkUpdate|/checkUpdate|bot.base.commands|Проверяет наличие новой версии бота|
+|setup|/setup|bot.base.commands|Первоначальная настройка прав администратора|
+|myPermissions|/myPermissions|bot.base.commands|Узнать ваши текущие права|
+|getMyCmds|/help|bot.base.commands|Узнать доступные вам команды|
+|myGroup|/myGroup|bot.base.commands|Узнать вашу текущую группу|
+|getCmdPerms|/getCmdPerms|bot.base.commands|Узнать все команды и разрешения к ним|
+|getGroup|/getGroup|bot.base.commands|Узнать разрешения группы|
+|getGroups|/getGroups|bot.base.commands|Узнать все группы|
+|getPerms|/getPerms|bot.base.commands|Узнать все разрешения|
+|dailyPlaylist|/getDaily|bot.get.playlist|Получает дневной плейлист с аккаунта|
+|eval|/eval|bot.eval|Выполнение js кода в боте|
+|execJs|/js|bot.exec.js|Выполнение js кода|
+|genresPopular|/genresPopular|bot.get.popular|Получает жанры популярной музыки|
+|getMusic|/getMusic|bot.get.music|Получает всю музыку с аккаунта|
+|getPopular|/getPopular|bot.get.popular|Получает популярную музыку|
+|getRecommendations|/getRecommendations|bot.get.recommendations|Получает рекомендации с аккаунта|
+|newPlaylist|/getNew|bot.get.playlist|Получает плейлист с новинками с аккаунта|
+|removeKeyboard|/removeKeyboard|bot.debug|Удаляет клавиатуру|
+|searchMusic|/search|bot.search.music|Поиск музыки в вк|
+|setGroup|/setGroup|bot.set.group|Установить группу человеку|
+|weekPlaylist|/getWeek|bot.get.playlist|Получает недельный плейлист с аккаунта|
+|test|/test|bot.debug|Тестовая команда|

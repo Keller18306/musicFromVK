@@ -10,7 +10,7 @@ export default class CMD extends BaseCommand {
             startsWith: true,
             registerTG: false,
             command: 'setup',
-            description: 'Настройка прав администратора'
+            description: 'Первоначальная настройка прав администратора'
         }
     ]
 

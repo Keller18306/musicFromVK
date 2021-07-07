@@ -10,7 +10,7 @@ export default class CMD extends BaseCommand {
             startsWith: false,
             registerTG: false,
             command: 'removeKeyboard',
-            description: 'Удаляет клаву'
+            description: 'Удаляет клавиатуру'
         }
     ]
 
