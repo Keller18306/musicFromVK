@@ -35,7 +35,7 @@ export const groups: {
     member: {
         childGroup: 'guest',
         permissions: [
-            'bot.get.music', 'bot.get.playlist',
+            'bot.get.playlist',
             'bot.search.music', 'bot.get.recommendations',
             'bot.get.audio', 'bot.get.popular'
         ]
@@ -43,7 +43,7 @@ export const groups: {
     owner: {
         childGroup: 'member',
         permissions: [
-            'bot.add.to.music', 'bot.send.start.event',
+            'bot.get.music', 'bot.add.to.music', 'bot.send.start.event',
             'bot.delete.music', 'bot.get.page'
         ]
     },

@@ -87,8 +87,8 @@ ts-node .
 | Группа | Разрешения | Описание |
 |--------|------------|----------|
 | guest  |bot.base.commands|Группа выдаётся всем, кто пишет боту (для экономии места автоматически в файл не заносится)|
-| member |`всех групп выше` + bot.get.music, bot.get.playlist, bot.search.music, bot.get.recommendations, bot.get.audio, bot.get.popular|Группа имеет доступ к прослушиванию музыки|
-| owner  |`всех групп выше` + bot.add.to.music, bot.send.start.event, bot.delete.music, bot.get.page|Группа имеет доступ к редактировании музыки и различным взаимодейтсвием с аккаунтом|
+| member |`всех групп выше` + bot.get.playlist, bot.search.music, bot.get.recommendations, bot.get.audio, bot.get.popular|Группа имеет доступ к прослушиванию музыки|
+| owner  |`всех групп выше` + bot.get.music, bot.add.to.music, bot.send.start.event, bot.delete.music, bot.get.page|Группа имеет доступ к редактировании музыки и различным взаимодейтсвием с аккаунтом|
 | admin  |`всех групп выше` + bot.eval, bot.debug, bot.add.admin, bot.exec.js, bot.set.group|Полный доступ ко всем командам|
 
 ## Доступные команды
@@ -108,7 +108,6 @@ ts-node .
 |getGroup|/getGroup|guest|bot.base.commands|Узнать разрешения группы|
 |getGroups|/getGroups|guest|bot.base.commands|Узнать все группы|
 |getPerms|/getPerms|guest|bot.base.commands|Узнать все разрешения|
-|getMusic|/getMusic|member|bot.get.music|Получает всю музыку с аккаунта|
 |dailyPlaylist|/getDaily|member|bot.get.playlist|Получает дневной плейлист с аккаунта|
 |weekPlaylist|/getWeek|member|bot.get.playlist|Получает недельный плейлист с аккаунта|
 |newPlaylist|/getNew|member|bot.get.playlist|Получает плейлист с новинками с аккаунта|
@@ -116,6 +115,7 @@ ts-node .
 |getPopular|/getPopular|member|bot.get.popular|Получает популярную музыку|
 |genresPopular|/genresPopular|member|bot.get.popular|Получает жанры популярной музыки|
 |searchMusic|/search|member|bot.search.music|Поиск музыки в вк|
+|getMusic|/getMusic|owner|bot.get.music|Получает всю музыку с аккаунта|
 |setGroup|/setGroup|admin|bot.set.group|Установить группу человеку|
 |eval|/eval|admin|bot.eval|Выполнение js кода в боте|
 |execJs|/js|admin|bot.exec.js|Выполнение js кода|
