@@ -5,13 +5,13 @@ import { Context } from "telegraf"
 export const Permissions: Permission[] = ['bot.get.music', 'bot.get.audio', 'bot.add.admin', 'bot.base.commands',
     'bot.eval', 'bot.debug', 'bot.search.music', 'bot.get.playlist',
     'bot.get.recommendations', 'bot.exec.js', 'bot.add.to.music', 'bot.send.start.event',
-    'bot.delete.music', 'bot.get.page', 'bot.set.group', 'bot.get.popular'
+    'bot.delete.music', 'bot.get.page', 'bot.set.group', 'bot.get.popular', 'bot.get.friends'
 ]
 
 export type Permission = 'bot.get.music' | 'bot.get.audio' | 'bot.add.admin' | 'bot.base.commands' |
     'bot.eval' | 'bot.debug' | 'bot.search.music' | 'bot.get.playlist' |
     'bot.get.recommendations' | 'bot.exec.js' | 'bot.add.to.music' | 'bot.send.start.event' |
-    'bot.delete.music' | 'bot.get.page' | 'bot.set.group' | 'bot.get.popular'
+    'bot.delete.music' | 'bot.get.page' | 'bot.set.group' | 'bot.get.popular' | 'bot.get.friends'
 
 export type JSONUsers = {
     [id: string]: {
@@ -44,7 +44,7 @@ export const groups: {
         childGroup: 'member',
         permissions: [
             'bot.get.music', 'bot.add.to.music', 'bot.send.start.event',
-            'bot.delete.music', 'bot.get.page'
+            'bot.delete.music', 'bot.get.page', 'bot.get.friends'
         ]
     },
     admin: {

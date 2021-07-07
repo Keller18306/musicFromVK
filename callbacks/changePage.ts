@@ -4,6 +4,7 @@ import { update as getPlaylist } from '../methods/getPlaylist'
 import { update as searchMusic } from '../methods/search'
 import { update as getRecommendations } from '../methods/getRecommendations'
 import { update as getPopular } from '../methods/getPopular'
+import { update as getFriends } from '../methods/getFriends'
 import { searchId } from '../bot'
 import { getUserPermissions, noPerm } from '../permissions'
 
@@ -86,6 +87,15 @@ export default class Callback extends BaseCallback {
                 const id = args[3] == null ? undefined : Number(args[3])
 
                 return getPopular(ctx, id, page)
+            }
+        
+            case 'getFriends': {
+                if (!getUserPermissions(ctx.callbackQuery.from.id).permissions.includes('bot.get.friends'))
+                    return noPerm(ctx, 'bot.get.friends', 'action')
+
+                const id = args[3] == null ? null : Number(args[3])
+
+                return getFriends(ctx, page, id)
             }
         }
     }

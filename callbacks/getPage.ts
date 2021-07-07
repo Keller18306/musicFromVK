@@ -1,5 +1,5 @@
 import { default as BaseCallback, HandlerParams } from './_base'
-import { downloadFile, getAccountMusic, getAudio, getCaption, getPlaylist, getRecommendations, searchMusic, getPopular } from '../functions'
+import { downloadFile, getAccountMusic, getAudio, getCaption, getPlaylist, getRecommendations, searchMusic, getPopular, getFriendMusic } from '../functions'
 import { searchId } from '../bot'
 import { vk } from '../vk'
 import { InputMediaAudio, Message } from 'telegraf/typings/core/types/typegram'
@@ -108,6 +108,17 @@ export default class Callback extends BaseCallback {
                 const id = args[3] == null ? undefined : Number(args[3])
 
                 audios = (await getPopular(id, page, 10)).audios
+                break;
+            }
+
+            case 'getFriend': {
+                if (!getUserPermissions(ctx.callbackQuery.from.id).permissions.includes('bot.get.friends'))
+                    return noPerm(ctx, 'bot.get.friends', 'action')
+
+                if (args[3] == null) return;
+                const id = Number(args[3])
+
+                audios = (await getFriendMusic(id, page, 10)).audios
                 break;
             }
         }

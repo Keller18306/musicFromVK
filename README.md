@@ -24,6 +24,7 @@
 8. Дополнительные возможности (`решить пример`, безопасное `выполнение кода`)
 9. **Полное** контролирование `прав для команд`
 10. Распределение пользователей по `группам` (каждая группа имеет `свои права`)
+11. Слушать музыку `друзей`
 
 ## Установка
 Скачать данный репозиторий командой:
@@ -51,6 +52,7 @@ export const config: Config = {
     vk_token: 'Токен от аккаунта вк'
 }
 ```
+Получить токен от вк можно тут: https://oauth.vk.com/authorize?client_id=6121396&scope=327710&redirect_uri=https://oauth.vk.com/blank.html&display=page&response_type=token&revoke=1
 
 ## Запуск
 Запустить бота можно следующей командой
@@ -88,7 +90,7 @@ ts-node .
 |--------|------------|----------|
 | guest  |bot.base.commands|Группа выдаётся всем, кто пишет боту (для экономии места автоматически в файл не заносится)|
 | member |`всех групп выше` + bot.get.playlist, bot.search.music, bot.get.recommendations, bot.get.audio, bot.get.popular|Группа имеет доступ к прослушиванию музыки|
-| owner  |`всех групп выше` + bot.get.music, bot.add.to.music, bot.send.start.event, bot.delete.music, bot.get.page|Группа имеет доступ к редактировании музыки и различным взаимодейтсвием с аккаунтом|
+| owner  |`всех групп выше` + bot.get.music, bot.add.to.music, bot.send.start.event, bot.delete.music, bot.get.page, bot.get.friends|Группа имеет доступ к редактировании музыки и различным взаимодейтсвием с аккаунтом|
 | admin  |`всех групп выше` + bot.eval, bot.debug, bot.add.admin, bot.exec.js, bot.set.group|Полный доступ ко всем командам|
 
 ## Доступные команды
@@ -116,6 +118,7 @@ ts-node .
 |genresPopular|/genresPopular|member|bot.get.popular|Получает жанры популярной музыки|
 |searchMusic|/search|member|bot.search.music|Поиск музыки в вк|
 |getMusic|/getMusic|owner|bot.get.music|Получает всю музыку с аккаунта|
+|getFriends|/getFriends|owner|bot.get.friends|Возвращает список друзей (есть возможность слушать их музыку)|
 |setGroup|/setGroup|admin|bot.set.group|Установить группу человеку|
 |eval|/eval|admin|bot.eval|Выполнение js кода в боте|
 |execJs|/js|admin|bot.exec.js|Выполнение js кода|
