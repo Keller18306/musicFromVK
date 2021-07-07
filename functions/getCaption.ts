@@ -1,3 +1,4 @@
+import { tg } from "../bot"
 import { formatBytes } from "../utils"
 
 export function getCaption(audio: string, audioInfo: {
@@ -12,7 +13,7 @@ export function getCaption(audio: string, audioInfo: {
         audioInfo.mode
     ]
 
-    if(watermark) caption.push('<i>— via @keller_musicfromvk_bot</i>')
+    if(watermark) caption.push(`<i>— via @${tg.botInfo?.username}</i>`)
     
     return caption.join('\n')
 }

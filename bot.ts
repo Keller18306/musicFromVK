@@ -7,7 +7,7 @@ import BaseInline from './inline/_base';
 import { getUserPermissions, noPerm } from './permissions';
 import { config } from './config';
 
-const tg = new Telegraf(config.tg_token)
+export const tg = new Telegraf(config.tg_token)
 /*
 tg.command(['id', 'myid'], (ctx) => {
     ctx.reply(`${ctx.from.id}`)
@@ -186,9 +186,12 @@ tg.on('inline_query', async (ctx) => {
     }
 })*/
 
-tg.launch().then(async () => {
-    const commands: BotCommand[] = []
+async function init(): Promise<void> {
+    console.log('Starting bot...')
 
+    console.log('Setting commands...')
+    const commands: BotCommand[] = []
+    
     for (const id in cmds) {
         const cmd = cmds[id]
         for (const icmd of cmd.commands) {
@@ -203,7 +206,12 @@ tg.launch().then(async () => {
 
     await tg.telegram.setMyCommands(commands)
 
-    console.log('Bot started')
-}, (err) => {
-    console.log('error:', err)
-})
+    console.log('Start listen updates...')
+    await tg.launch().then(async () => {
+        console.log('Bot started')
+    }, (err) => {
+        console.log('error:', err)
+    })
+}
+
+init()
