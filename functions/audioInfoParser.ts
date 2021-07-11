@@ -239,6 +239,8 @@ export function audioInfoParser(buffer: Buffer): { kbps: number, khz: number, mo
     const ID3Header = ID3Parser(stream)
     //console.log(ID3Header)
 
+    if(ID3Header.tag != 'ID3') throw new Error('file is not ID3v2 mp3 (maybe ID3v1 or raw)')
+
     const ID3Tags = stream.read(ID3Header.lengthTags)
     //console.log(ID3Tags.toString())
 

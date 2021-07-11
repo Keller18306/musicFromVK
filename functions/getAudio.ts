@@ -62,7 +62,12 @@ export async function getAudio(owner_id: null | number, id: number, cb?: Downloa
         duration
     }, null, name)
 
-    const audioInfo = audioInfoParser(buffer)
+    let audioInfo = { kbps: 0, khz: 0, mode: 'Parse error' }
+    try {
+        audioInfo = audioInfoParser(buffer)
+    } catch (e) {
+        console.error(e)
+    }
 
     return {
         source: buffer,
