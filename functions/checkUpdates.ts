@@ -1,15 +1,16 @@
 import { default as request } from 'request'
 
 async function getLatest(): Promise<string> {
-    const { tag_name } = await new Promise(resolve => {
+    const { tag_name } = await new Promise((resolve, reject) => {
         request('https://api.github.com/repos/Keller18306/musicFromVK/releases/latest', {
             headers: {
-                accept: 'application/vnd.github.v3+json'
+                accept: 'application/vnd.github.v3+json',
+                'user-agent': 'Music from VK Bot: https://github.com/Keller18306/musicFromVK'
             }
         }, (err, res, body) => {
-            if (err) throw new Error(err.toString())
+            if (err) return reject(new Error(err.toString()))
 
-            if (res.statusCode !== 200) throw new Error(`status code ${res.statusCode}`)
+            if (res.statusCode !== 200) return reject(new Error(`status code ${res.statusCode}`))
 
             resolve(JSON.parse(body))
         })

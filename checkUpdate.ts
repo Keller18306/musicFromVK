@@ -6,6 +6,6 @@ import { checkUpdate } from "./functions"
     if(!found) return;
 
     console.log(`[UPDATE] Доступна новая версия к скачиванию! | Текущая: ${current} | Последняя: ${last}`)
-})().catch(() => {
-    console.error('[UPDATE] Произошла ошибка во время проверки обновлений.')
+})().catch((err) => {
+    console.error('[UPDATE] Произошла ошибка во время проверки обновлений.', err)
 })
