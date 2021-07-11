@@ -118,6 +118,13 @@ function ID3Parser(stream: Stream) {
 
     const flags = stream.readBites(1).padStart(8, '0')
 
+    const parsedFlags = {
+        unsynchronisation: Boolean(flags[0]),
+        extHeader: Boolean(flags[1]),
+        experimental: Boolean(flags[2]),
+        footer: Boolean(flags[0])
+    }
+
     const partsTags: string[] = []
     for (let i = 0; i < 4; i++) {
         const bits = stream.readBites(1).padStart(8, '0')
@@ -129,7 +136,7 @@ function ID3Parser(stream: Stream) {
     return {
         tag,
         ver: `2.${ver1}.${ver2}`,
-        flags,
+        flags: parsedFlags,
         lengthTags
     }
 }
@@ -246,7 +253,7 @@ export function audioInfoParser(buffer: Buffer): { kbps: number, khz: number, mo
         const l = AudioFrameLength(a.audioVersion, a.layer, a.bitrate, a.frequency, a.padding)
 
         if (a.frameSync != '1'.repeat(11)) {
-            console.log('frame error', a)
+            console.log('frame error', ID3Header, a)
             break;
         }
 
