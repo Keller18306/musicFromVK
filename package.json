@@ -1,7 +1,6 @@
 {
   "name": "tg_music_from_vk",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.1",
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,6 +16,7 @@
   },
   "homepage": "https://github.com/Keller18306/musicFromVK#readme",
   "dependencies": {
+    "@mtproto/core": "^6.0.1",
     "request": "^2.88.2",
     "telegraf": "^4.3.0",
     "vk-io": "^4.3.0"
