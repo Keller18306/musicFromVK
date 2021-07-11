@@ -36,9 +36,9 @@ export default class CMD extends BaseCommand {
         ctx.reply(
             (found ?
                 'Доступна новая версия!' : 'Обновлений не найдено') +
-                '\n\n' +
-                `Текущая версия: ${current}` +
-                found ? `\nНовая версия: ${last}` : ''
+            '\n\n' +
+            `Текущая версия: ${current}` +
+            (found ? `\nНовая версия: ${last}` : '')
         )
     }
 }
