@@ -27,9 +27,11 @@
 11. Слушать музыку `друзей`
 
 ## Установка
-Скачать данный репозиторий командой:
+Скачать последний релиз с github: 
+![releases image](img/releases.png)
+Или же командой через git (вместо !VERSION! указать последнюю версию из релизов):
 ```bash
-git clone https://github.com/Keller18306/musicFromVK.git
+git clone --branch !VERSION! https://github.com/Keller18306/musicFromVK.git
 ```
 
 Скачать необходимые модули:
