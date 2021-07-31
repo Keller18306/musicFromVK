@@ -54,7 +54,9 @@ tg.on('callback_query', async (ctx) => {
 
     console.log(data.data)
 
-    return cb.handler({ tg, ctx, payload: data.data })
+    cb.handler({ tg, ctx, payload: data.data })
+
+    return;
 })
 
 export const cmds: {
@@ -95,7 +97,7 @@ tg.on('text', async (ctx) => {
 
                 console.log(command)
 
-                await cmd.handler({ tg, ctx })
+                cmd.handler({ tg, ctx })
 
                 return;
             }
@@ -125,7 +127,7 @@ tg.on('text', async (ctx) => {
 
                 console.log(command)
 
-                await cmd.handler({ tg, ctx })
+                cmd.handler({ tg, ctx })
 
                 return;
             }
