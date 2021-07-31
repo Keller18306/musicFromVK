@@ -4,9 +4,6 @@ users.json
 config.ts
 downloaded/
 
-# Dependency lock file
-package-lock.json
-
 # Logs
 logs
 *.log
