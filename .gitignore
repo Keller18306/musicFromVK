@@ -4,6 +4,9 @@ users.json
 config.ts
 downloaded/
 
+# Dependency lock file
+package-lock.json
+
 # Logs
 logs
 *.log
@@ -46,9 +49,6 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
-
-# Dependency lock file
-package-lock.json
 
 # TypeScript v1 declaration files
 typings/
