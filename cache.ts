@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'fs'
+import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from 'fs'
 import { deepClone } from './utils'
 
 type CacheUrl = {
@@ -54,6 +54,8 @@ export function saveJSON() {
 
     writeFileSync('./cached.json', data)
 }
+
+if(!existsSync('./downloaded/')) mkdirSync('./downloaded/')
 
 const json: JSONSchema = existsSync('./cached.json') ? loadJSON() : {
     telegram: {},
