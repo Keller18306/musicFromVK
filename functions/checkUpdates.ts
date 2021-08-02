@@ -30,5 +30,9 @@ export async function checkUpdate() {
 
     const current = getCurrent()
 
-    return { found: current != last, current, last }
+    return {
+        found: parseInt(current.replace(/\./g, '')) < parseInt(last.replace(/\./g, '')),
+        current,
+        last
+    }
 }
