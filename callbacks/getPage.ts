@@ -42,6 +42,7 @@ export default class Callback extends BaseCallback {
         let audios: {
             owner_id: number,
             id: number,
+            access_key?: string,
             duration?: number,
             url?: string,
             title?: string,
@@ -175,7 +176,7 @@ export default class Callback extends BaseCallback {
             if (cached === undefined) {
                 const promise = (async () => {
                     status('Получение title, url...')
-                    const { title, artist, duration, source, audioInfo } = await getAudio(audio.owner_id, audio.id, ({ percent, now, total }) => {
+                    const { title, artist, duration, source, audioInfo } = await getAudio(audio.owner_id, audio.id, audio.access_key, ({ percent, now, total }) => {
                         status(`Скачивание с ВК [${percent.toFixed(2)}%] (${formatBytes(now)}/${formatBytes(total)})...`)
                     })
 

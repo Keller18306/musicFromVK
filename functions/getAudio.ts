@@ -6,7 +6,7 @@ import { readFileSync } from 'fs'
 import { audioInfoParser } from './audioInfoParser'
 import { formatBytes } from '../utils'
 
-export async function getAudio(owner_id: null | number, id: number, cb?: DownloadCallback): Promise<{
+export async function getAudio(owner_id: null | number, id: number, access_key?: string, cb?: DownloadCallback): Promise<{
     source: Buffer,
     fulltitle: string,
     title: string,
@@ -23,17 +23,22 @@ export async function getAudio(owner_id: null | number, id: number, cb?: Downloa
 
     const audio = `${owner_id}_${id}`
 
+    //TO DO, cache access key to url cache
+
     const audioCache = cache.file[audio] || cache.url[audio]
 
+    console.log(audio + (access_key ? `_${access_key}` : ''))
+
     const [{ url, title, artist, duration }] = audioCache !== undefined ? [{ url: '', ...audioCache }] : undefined || await vk.api.audio.getById({
-        audios: audio
+        audios: audio + (access_key ? `_${access_key}` : '')
     })
 
     if (url !== '') cacheAudio('url', audio, {
         title,
         artist,
         duration,
-        url
+        url,
+        access_key
     }, null)
 
     function getFromCache() {
@@ -53,7 +58,7 @@ export async function getAudio(owner_id: null | number, id: number, cb?: Downloa
             delete cache.url[audio]
             saveJSON()
         }
-        return getAudio(owner_id, id, cb)
+        return getAudio(owner_id, id, access_key, cb)
     }
 
     if (name !== null) cacheAudio('file', audio, {

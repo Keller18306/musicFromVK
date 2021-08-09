@@ -35,7 +35,7 @@ export function buildKeyboardAudio(audios: AudioItem[], method: string, page: nu
         keyboard.push([
             {
                 text: text,
-                callback_data: `getAudio|${song.owner_id}|${song.id}|${Number(showDelete)}`
+                callback_data: `getAudio|${song.owner_id}|${song.id}|${song.access_key}|${Number(showDelete)}`
             }
         ])
     }
@@ -45,20 +45,20 @@ export function buildKeyboardAudio(audios: AudioItem[], method: string, page: nu
     return keyboard
 }
 
-export function buildKeyboardInAudio(owner_id: number, id: number, showDelete: boolean = false) {
+export function buildKeyboardInAudio(owner_id: number, id: number, access_key: string, showDelete: boolean = false) {
     const keyboard: InlineKeyboardButton[][] = [
         [
             {
                 text: '➕',
-                callback_data: `addToMusic|${owner_id}|${id}`
+                callback_data: `addToMusic|${owner_id}|${id}|${access_key}`
             },
             {
                 text: '🎶',
-                callback_data: `getSimilar|${owner_id}|${id}`
+                callback_data: `getSimilar|${owner_id}|${id}|${access_key}`
             },
             {
                 text: '✔️',
-                callback_data: `sendStartEvent|${owner_id}|${id}`
+                callback_data: `sendStartEvent|${owner_id}|${id}|${access_key}`
             }
         ]
     ]

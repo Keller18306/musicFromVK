@@ -18,25 +18,27 @@ export default class Callback extends BaseCallback {
         const parsed: {
             id: string,
             owner_id: number,
-            audio_id: number
+            audio_id: number,
+            access_key: string
         } = {
             id: arg[0],
             owner_id: Number(arg[1]),
-            audio_id: Number(arg[2])
+            audio_id: Number(arg[2]),
+            access_key: arg[3]
         }
 
         return parsed
     }
 
     async handler({ tg, ctx, payload }: HandlerParams) {
-        const { owner_id, audio_id } = this.payloadParser(payload)
+        const { owner_id, audio_id, access_key } = this.payloadParser(payload)
 
         if (isNaN(owner_id)) return;
         if (isNaN(audio_id)) return;
 
         const res: true | string = await vk.api.audio.sendStartEvent({
             uuid: randomBytes(20).toString('hex'),
-            audio_id: `${owner_id}_${audio_id}`
+            audio_id: `${owner_id}_${audio_id}` + (access_key && access_key != '' ? `_${access_key}` : '')
         }).then(() => {
             return true
         }).catch((err) => {

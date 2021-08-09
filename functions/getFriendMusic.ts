@@ -3,7 +3,7 @@ import { cacheAudio } from '../cache'
 import { buildFriendMusicKeyboard } from './'
 import { InlineKeyboardButton } from 'telegraf/typings/core/types/typegram'
 
-export async function getFriendMusic(friend_id: number, page: number = 1, count: number = 10): Promise<{ success: boolean | string, keyboard: InlineKeyboardButton[][], page: number, pages: number, audios: { owner_id: number, id: number }[] }> {
+export async function getFriendMusic(friend_id: number, page: number = 1, count: number = 10): Promise<{ success: boolean | string, keyboard: InlineKeyboardButton[][], page: number, pages: number, audios: { owner_id: number, id: number, access_key: string }[] }> {
     let success: true | string = true
 
     const {
@@ -34,7 +34,8 @@ export async function getFriendMusic(friend_id: number, page: number = 1, count:
 
     const audios: {
         owner_id: number,
-        id: number
+        id: number,
+        access_key: string
     }[] = []
 
     for (const audio of selected) {
@@ -47,7 +48,8 @@ export async function getFriendMusic(friend_id: number, page: number = 1, count:
 
         audios.push({
             owner_id: audio.owner_id,
-            id: audio.id
+            id: audio.id,
+            access_key: audio.access_key
         })
     }
 

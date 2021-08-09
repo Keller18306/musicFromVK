@@ -35,7 +35,7 @@ export function buildFriendMusicKeyboard(audios: AudioItem[], page: number, payl
         keyboard.push([
             {
                 text: text,
-                callback_data: `getAudio|${song.owner_id}|${song.id}|0`
+                callback_data: `getAudio|${song.owner_id}|${song.id}|${song.access_key}|0`
             }
         ])
     }

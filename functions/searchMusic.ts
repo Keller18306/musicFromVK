@@ -19,7 +19,8 @@ export async function searchMusic(q: string, page: number = 1, count: number = 1
 
     const audios: {
         owner_id: number,
-        id: number
+        id: number,
+        access_key: string
     }[] = []
 
     for (const audio of selected) {
@@ -31,7 +32,8 @@ export async function searchMusic(q: string, page: number = 1, count: number = 1
         }, null)
         audios.push({
             owner_id: audio.owner_id,
-            id: audio.id
+            id: audio.id,
+            access_key: audio.access_key
         })
     }
 

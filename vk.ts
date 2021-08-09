@@ -61,6 +61,8 @@ export type AudioAddParams = {
     audio_id: number
     owner_id: number
     group_id?: number
+
+    [key: string]: any
 }
 
 export type AudioGetByIdParams = {

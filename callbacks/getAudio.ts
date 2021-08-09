@@ -19,19 +19,21 @@ export default class Callback extends BaseCallback {
             id: string,
             owner_id: number,
             audio_id: number,
+            access_key: string,
             showDelete: boolean
         } = {
             id: arg[0],
             owner_id: Number(arg[1]),
             audio_id: Number(arg[2]),
-            showDelete: Boolean(+arg[3])
+            access_key: arg[3],
+            showDelete: Boolean(+arg[4])
         }
 
         return parsed
     }
 
     async handler({ tg, ctx, payload }: HandlerParams) {
-        const { owner_id, audio_id: id, showDelete } = this.payloadParser(payload)
+        const { owner_id, audio_id: id, access_key, showDelete } = this.payloadParser(payload)
 
         if (isNaN(owner_id)) return;
         if (isNaN(id)) return;
@@ -50,10 +52,10 @@ export default class Callback extends BaseCallback {
         const audio = `${owner_id}_${id}`
         const cached = cache.telegram[audio]
 
-        const keyboard = buildKeyboardInAudio(owner_id, id, showDelete)
+        const keyboard = buildKeyboardInAudio(owner_id, id, access_key, showDelete)
 
         if (cached === undefined) {
-            const { source, title, artist, duration, audioInfo } = await getAudio(owner_id, id)
+            const { source, title, artist, duration, audioInfo } = await getAudio(owner_id, id, access_key)
 
             const res = await ctx.replyWithAudio({
                 source: source

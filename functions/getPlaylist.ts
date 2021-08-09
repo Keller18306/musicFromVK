@@ -29,7 +29,8 @@ export async function getPlaylist(owner_id: number | null, id: number, page: num
 
     const audios: {
         owner_id: number,
-        id: number
+        id: number,
+        access_key: string
     }[] = []
 
     for (const audio of selected) {
@@ -41,7 +42,8 @@ export async function getPlaylist(owner_id: number | null, id: number, page: num
         }, null)
         audios.push({
             owner_id: audio.owner_id,
-            id: audio.id
+            id: audio.id,
+            access_key: audio.access_key
         })
     }
 

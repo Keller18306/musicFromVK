@@ -6,6 +6,7 @@ type CacheUrl = {
     artist: string
     duration: number
     url: string
+    access_key: string,
     cacheUntil: null | number
 }
 type CacheFile = {
@@ -119,7 +120,8 @@ export function cacheAudio(type: 'url' | 'file' | 'telegram', audioId: string, a
         khz: number
         mode: string
     },
-    url?: string
+    url?: string,
+    access_key?: string
 }, until: null | number, file?: string): boolean {
     if (type === 'telegram') {
         if (file === undefined) throw new Error('file_id is undefined')
@@ -164,14 +166,19 @@ export function cacheAudio(type: 'url' | 'file' | 'telegram', audioId: string, a
     }
     if (type === 'url') {
         if (json.file[audioId] !== undefined || json.telegram[audioId] !== undefined) return false;
+
         if (audio.url === undefined) throw new Error('url is undefined')
         if (audio.url === '') throw new Error('url is empty')
+
+        if (audio.access_key === undefined) throw new Error('access_key is undefined')
+        if (audio.access_key === '') throw new Error('access_key is empty')
 
         json.url[audioId] = {
             title: audio.title,
             artist: audio.artist,
             duration: audio.duration,
             url: audio.url,
+            access_key: audio.access_key,
             cacheUntil: until
         }
 
