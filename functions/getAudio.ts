@@ -27,8 +27,6 @@ export async function getAudio(owner_id: null | number, id: number, access_key?:
 
     const audioCache = cache.file[audio] || cache.url[audio]
 
-    console.log(audio + (access_key ? `_${access_key}` : ''))
-
     const [{ url, title, artist, duration }] = audioCache !== undefined ? [{ url: '', ...audioCache }] : undefined || await vk.api.audio.getById({
         audios: audio + (access_key ? `_${access_key}` : '')
     })
