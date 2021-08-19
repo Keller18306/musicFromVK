@@ -31,13 +31,7 @@ export default class CMD extends BaseCommand {
     }
 
     async handler({ tg, ctx }: HandlerParams) {
-        const a = await ctx.replyWithAudio({
-            source: readFileSync('test.mp3')
-        })
-
-        console.log(a)
-
-        return ctx.reply(JSON.stringify(a))
+        throw new Error('test')
         /*return ctx.reply(
             '<b>bold</b>\n' +
             '<i>italic</i>\n' +

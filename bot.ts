@@ -45,16 +45,23 @@ tg.on('callback_query', async (ctx) => {
     const cb = callbacks[id]
     if (cb === undefined) return;
 
-    if(cb.permission === null) return ctx.reply('Для данной команды ещё не настроены права')
-                
+    if (cb.permission === null) return ctx.reply('Для данной команды ещё не настроены права')
+
     const uPerms = getUserPermissions(data.from.id)
 
-    if(cb.permission !== true && !uPerms.permissions.includes(cb.permission)) 
-        return noPerm(ctx, cb.permission, 'action')
+    if (cb.permission !== true && !uPerms.permissions.includes(cb.permission))
+        return noPerm(ctx, cb.permission, 'action');
 
-    console.log(data.data)
+    console.log(data.data);
 
-    cb.handler({ tg, ctx, payload: data.data })
+    (async () => {
+        try {
+            await cb.handler({ tg, ctx, payload: data.data! })
+        } catch (e) {
+            console.error(id, e)
+            ctx.reply(`Произошла ошибка во время выполнения Callback #${id}: ${e.toString()}`)
+        }
+    })();
 
     return;
 })
@@ -87,17 +94,24 @@ tg.on('text', async (ctx) => {
 
                 if (command != sysCommand) continue;
 
-                if(cmd.permission === null) return ctx.reply('Для данной команды ещё не настроены права')
-                
+                if (cmd.permission === null) return ctx.reply('Для данной команды ещё не настроены права')
+
                 const uPerms = getUserPermissions(ctx.message.from.id)
 
-                if(cmd.permission !== true && !uPerms.permissions.includes(cmd.permission)) return ctx.reply(
+                if (cmd.permission !== true && !uPerms.permissions.includes(cmd.permission)) return ctx.reply(
                     `Ваш аккаунт или ваша группа "${uPerms.group}" не имеет разрешения "${cmd.permission}".`
-                )
+                );
 
-                console.log(command)
+                console.log(command);
 
-                cmd.handler({ tg, ctx })
+                (async () => {
+                    try {
+                        await cmd.handler({ tg, ctx })
+                    } catch (e) {
+                        console.error(id, e)
+                        ctx.reply(`Произошла ошибка во время выполнения Command #${id}: ${e.toString()}`)
+                    }
+                })()
 
                 return;
             }
@@ -116,18 +130,25 @@ tg.on('text', async (ctx) => {
                 }
 
                 if (command != sysCommand) continue;
-                
-                if(cmd.permission === null) return ctx.reply('Для данной команды ещё не настроены права')
-                
+
+                if (cmd.permission === null) return ctx.reply('Для данной команды ещё не настроены права')
+
                 const uPerms = getUserPermissions(ctx.message.from.id)
 
-                if(cmd.permission !== true && !uPerms.permissions.includes(cmd.permission)) return ctx.reply(
+                if (cmd.permission !== true && !uPerms.permissions.includes(cmd.permission)) return ctx.reply(
                     `Ваш аккаунт или ваша группа "${uPerms.group}" не имеет разрешения "${cmd.permission}".`
-                )
+                );
 
-                console.log(command)
+                console.log(command);
 
-                cmd.handler({ tg, ctx })
+                (async () => {
+                    try {
+                        await cmd.handler({ tg, ctx })
+                    } catch (e) {
+                        console.error(id, e)
+                        ctx.reply(`Произошла ошибка во время выполнения Command #${id}: ${e.toString()}`)
+                    }
+                })()
 
                 return;
             }
@@ -193,7 +214,7 @@ async function init(): Promise<void> {
 
     console.log('Setting commands...')
     const commands: BotCommand[] = []
-    
+
     for (const id in cmds) {
         const cmd = cmds[id]
         for (const icmd of cmd.commands) {
