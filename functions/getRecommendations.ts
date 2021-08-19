@@ -28,7 +28,8 @@ export async function getRecommendations(page: number = 1, count: number = 10) {
             title: audio.title,
             artist: audio.artist,
             duration: audio.duration,
-            url: audio.url
+            url: audio.url,
+            access_key: audio.access_key
         }, null)
         audios.push({
             owner_id: audio.owner_id,
