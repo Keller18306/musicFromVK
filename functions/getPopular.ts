@@ -31,7 +31,8 @@ export async function getPopular(id: number | null | undefined, page: number = 1
             title: audio.title,
             artist: audio.artist,
             duration: audio.duration,
-            url: audio.url
+            url: audio.url,
+            access_key: audio.access_key
         }, null)
         audios.push({
             owner_id: audio.owner_id,
