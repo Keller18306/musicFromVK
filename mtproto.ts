@@ -5,18 +5,24 @@ import { FileType } from './file_id/types'
 import { TelegramClient, Api } from 'telegram'
 import { StringSession } from 'telegram/sessions'
 import { readBigIntFromBuffer } from 'telegram/Helpers'
+import { Logger } from 'telegram/extensions'
+import { cache, saveJSON } from './cache'
 
-const session = new StringSession()
+const session = new StringSession(cache.session)
 
 const mtproto = new TelegramClient(session, config.api_id, config.api_hash, {
-    connectionRetries: 5
+    connectionRetries: 5,
+    baseLogger: new Logger('error')
 })
 
 mtproto.start({
     botAuthToken: config.tg_token
 }).then(() => {
     console.log('MTProto started')
-    console.log(mtproto.session.save())
+    cache.session = session.save()
+    saveJSON()
+}).catch((e) => {
+    console.error('MTProto start error', e)
 })
 
 export type UploadProgress = {

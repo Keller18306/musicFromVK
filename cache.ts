@@ -39,7 +39,8 @@ export type JSONSchema = {
     },
     url: {
         [audio: string]: CacheUrl
-    }
+    },
+    session: string
 }
 
 function loadJSON() {
@@ -61,7 +62,8 @@ if(!existsSync('./downloaded/')) mkdirSync('./downloaded/')
 const json: JSONSchema = existsSync('./cached.json') ? loadJSON() : {
     telegram: {},
     file: {},
-    url: {}
+    url: {},
+    session: ''
 }
 clearCache()
 setInterval(clearCache, 1 * 60 * 60 * 1e3)
