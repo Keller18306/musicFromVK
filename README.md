@@ -72,10 +72,16 @@ npm i -g ts-node
 import { Config } from './config.type'
 
 export const config: Config = {
-    tg_token: 'Токен от телеграм бота',
-    vk_token: 'Токен от аккаунта вк'
+    api_id: 1234567, //API Id приложения MTProto
+    api_hash: '826dbdaa1540d406ae3090add1805794', //API Hash приложения MTProto
+    tg_token: '1234567890:3KojcGP79eGW44UffUtf8Zabt_9ui7pOY80', //Токен от телеграм бота
+    vk_token: '6be59d30e6b346f17c4ca695df004f228379b78c261b0468b55da6f6dbfff5468beffa5c1dae4c0009ffa' //Токен от аккаунта вк
 }
 ```
+Получить данные для MTProto можно тут: https://my.telegram.org/
+
+Получить токен для бота телеграм можно тут: https://t.me/BotFather
+
 Получить токен от вк можно тут: https://oauth.vk.com/authorize?client_id=6121396&scope=327710&redirect_uri=https://oauth.vk.com/blank.html&display=page&response_type=token&revoke=1
 
 ## Запуск
