@@ -2,6 +2,7 @@ import { default as BaseCallback, HandlerParams } from './_base'
 import { buildKeyboardInAudio, getAudio, getCaption } from '../functions'
 import { Permission } from '../permissions'
 import { cache, cacheAudio } from '../cache'
+import { uploadAudioFile } from '../mtproto'
 
 export default class Callback extends BaseCallback {
     public id: string | null = 'getAudio'
@@ -50,24 +51,18 @@ export default class Callback extends BaseCallback {
         }
 
         const audio = `${owner_id}_${id}`
-        const cached = cache.telegram[audio]
+        let cached = cache.telegram[audio]
 
         const keyboard = buildKeyboardInAudio(owner_id, id, access_key, showDelete)
 
         if (cached === undefined) {
-            const { source, title, artist, duration, audioInfo } = await getAudio(owner_id, id, access_key)
+            const { source, name, title, artist, duration, audioInfo } = await getAudio(owner_id, id, access_key)
 
-            const res = await ctx.replyWithAudio({
-                source: source
-            }, {
+            const { file_id } = await uploadAudioFile(source, {
+                name: name || 'noname.mp3',
                 title: title,
                 performer: artist,
-                duration: duration,
-                caption: getCaption(audio, audioInfo),
-                reply_markup: {
-                    inline_keyboard: keyboard
-                },
-                parse_mode: 'HTML'
+                duration: duration
             })
 
             cacheAudio('telegram', audio, {
@@ -75,19 +70,21 @@ export default class Callback extends BaseCallback {
                 artist: artist,
                 duration: duration,
                 audioInfo: audioInfo
-            }, null, res.audio.file_id)
-        } else {
-            ctx.replyWithAudio(cached.file_id, {
-                title: cached.title,
-                performer: cached.artist,
-                duration: cached.duration,
-                caption: getCaption(audio, cached.audioInfo),
-                reply_markup: {
-                    inline_keyboard: keyboard
-                },
-                parse_mode: 'HTML'
-            })
+            }, null, file_id)
+
+            cached = cache.telegram[audio]
         }
+
+        ctx.replyWithAudio(cached.file_id, {
+            title: cached.title,
+            performer: cached.artist,
+            duration: cached.duration,
+            caption: getCaption(audio, cached.audioInfo),
+            reply_markup: {
+                inline_keyboard: keyboard
+            },
+            parse_mode: 'HTML'
+        })
 
         if (send_status != null) clearInterval(send_status)
 

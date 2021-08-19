@@ -7,6 +7,7 @@ import { audioInfoParser } from './audioInfoParser'
 import { formatBytes } from '../utils'
 
 export async function getAudio(owner_id: null | number, id: number, access_key?: string, cb?: DownloadCallback): Promise<{
+    name: string | null,
     source: Buffer,
     fulltitle: string,
     title: string,
@@ -73,6 +74,7 @@ export async function getAudio(owner_id: null | number, id: number, access_key?:
     }
 
     return {
+        name: name,
         source: buffer,
         fulltitle: `${artist} - ${title}`,
         title, artist, duration,

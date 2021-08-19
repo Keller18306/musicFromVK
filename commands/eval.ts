@@ -4,6 +4,7 @@ import { compileFunction, createContext, runInNewContext, runInThisContext, Scri
 import { vk } from '../vk'
 import * as fs from 'fs'
 import * as crypto from 'crypto'
+import { cmds, callbacks } from '../bot'
 
 type JSCfg = {
     timeout: number
@@ -49,7 +50,8 @@ export default class CMD extends BaseCommand {
             result = await runInNewContext(text, {
                 global, clearInterval, clearTimeout, setInterval,
                 setTimeout, queueMicrotask, clearImmediate, setImmediate,
-                tg, ctx, vk, fs, crypto, require, process, Buffer
+                tg, ctx, vk, fs, crypto, require, process, Buffer,
+                cmds, callbacks
             }, {
                 timeout: this.jsCFG.timeout
             })

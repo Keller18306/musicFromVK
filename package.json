@@ -16,13 +16,13 @@
   },
   "homepage": "https://github.com/Keller18306/musicFromVK#readme",
   "dependencies": {
-    "@mtproto/core": "^6.0.1",
     "request": "^2.88.2",
     "telegraf": "^4.3.0",
+    "telegram": "^1.8.7",
     "vk-io": "^4.3.0"
   },
   "devDependencies": {
-    "@types/node": "^15.12.2",
+    "@types/node": "^16.4.13",
     "@types/request": "^2.48.5"
   },
   "nodemonConfig": {

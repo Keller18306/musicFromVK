@@ -1,0 +1,78 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "48b2354b518fdcb7a13667b9770ce2c1",
+    "packages": [
+        {
+            "name": "danog/tg-file-decoder",
+            "version": "0.1.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/danog/tg-file-decoder.git",
+                "reference": "336d0bd69f3eb0592fab7c3e934cdd0e4a8acf61"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/danog/tg-file-decoder/zipball/336d0bd69f3eb0592fab7c3e934cdd0e4a8acf61",
+                "reference": "336d0bd69f3eb0592fab7c3e934cdd0e4a8acf61",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "amphp/php-cs-fixer-config": "dev-master",
+                "phpunit/phpunit": "^8|^6"
+            },
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "danog\\Decoder\\": "src/"
+                },
+                "files": [
+                    "src/type.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "AGPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Daniil Gentili",
+                    "email": "daniil@daniil.it"
+                }
+            ],
+            "description": "Decode Telegram bot API file IDs",
+            "keywords": [
+                "audio",
+                "bot api",
+                "file ID",
+                "files",
+                "mtproto",
+                "stickers",
+                "telegram",
+                "video"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/danog",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-08-14T15:11:43+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
+}

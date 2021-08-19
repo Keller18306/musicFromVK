@@ -1,0 +1,5 @@
+{
+    "require": {
+        "danog/tg-file-decoder": "^0.1.8"
+    }
+}

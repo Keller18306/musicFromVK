@@ -27,7 +27,7 @@ export const searchId: {
     [index: number]: string
 } = {}
 
-const callbacks: {
+export const callbacks: {
     [id: string]: BaseCallback
 } = getCallbacks()
 

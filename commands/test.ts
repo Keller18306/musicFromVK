@@ -7,6 +7,7 @@
 
 import { default as BaseCommand, Message, Command, HandlerParams } from './_base'
 import { Permission } from '../permissions'
+import { readFileSync } from 'fs'
 
 export default class CMD extends BaseCommand {
     public id = 'test'
@@ -29,13 +30,20 @@ export default class CMD extends BaseCommand {
         super()
     }
 
-    handler({ tg, ctx }: HandlerParams) {
-        return ctx.reply(
+    async handler({ tg, ctx }: HandlerParams) {
+        const a = await ctx.replyWithAudio({
+            source: readFileSync('test.mp3')
+        })
+
+        console.log(a)
+
+        return ctx.reply(JSON.stringify(a))
+        /*return ctx.reply(
             '<b>bold</b>\n' +
             '<i>italic</i>\n' +
             '<u>underline</u>\n' +
             '<s>strikethrough</s>', {
             parse_mode: 'HTML'
-        })
+        })*/
     }
 }

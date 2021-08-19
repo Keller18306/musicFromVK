@@ -6,6 +6,7 @@ import { InputMediaAudio, Message } from 'telegraf/typings/core/types/typegram'
 import { getUserPermissions, noPerm, Permission } from '../permissions'
 import { formatBytes } from '../utils'
 import { cacheAudio, cache } from '../cache'
+import { uploadAudioFile } from '../mtproto'
 
 export default class Callback extends BaseCallback {
     public id: string | null = 'getPage'
@@ -43,19 +44,7 @@ export default class Callback extends BaseCallback {
             owner_id: number,
             id: number,
             access_key?: string,
-            duration?: number,
-            url?: string,
-            title?: string,
-            artist?: string,
-            status?: string,
-            buffer?: Buffer,
-            file_id?: string,
-            audioInfo?: {
-                size: number
-                kbps: number
-                khz: number
-                mode: string
-            }
+            status?: string
         }[] = []
 
         switch (method) {
@@ -164,8 +153,10 @@ export default class Callback extends BaseCallback {
         const send_status: NodeJS.Timeout = setInterval(setStatus, 4e3)
 
         const promises: Promise<any>[] = []
+        const media: (InputMediaAudio | null)[] = []
 
         for (const i in audios) {
+            media.push(null)
             const audio = audios[i]
 
             function status(text: string) {
@@ -175,107 +166,67 @@ export default class Callback extends BaseCallback {
             const cached = cache.telegram[`${audio.owner_id}_${audio.id}`]
             if (cached === undefined) {
                 const promise = (async () => {
-                    status('Получение title, url...')
-                    const { title, artist, duration, source, audioInfo } = await getAudio(audio.owner_id, audio.id, audio.access_key, ({ percent, now, total }) => {
-                        status(`Скачивание с ВК [${percent.toFixed(2)}%] (${formatBytes(now)}/${formatBytes(total)})...`)
+                    status('Начало скачивания из ВК...')
+                    const { name, title, artist, duration, source, audioInfo } = await getAudio(audio.owner_id, audio.id, audio.access_key, ({ percent, now, total }) => {
+                        status(`Скачивание из ВК [${percent.toFixed(2)}%] (${formatBytes(now)}/${formatBytes(total)})...`)
                     })
 
-                    audio.title = title
-                    audio.artist = artist
-                    audio.duration = duration
-                    audio.buffer = source
-                    audio.audioInfo = audioInfo
+                    status('Начало загрузки в Telegram')
+                    const { file_id } = await uploadAudioFile(source, {
+                        name: name || 'noname.mp3',
+                        title: title,
+                        performer: artist,
+                        duration: duration
+                    }, ({ percent, now, total }) => {
+                        status(`Загрузка в Telegram [${percent.toFixed(2)}%] (${formatBytes(now)}/${formatBytes(total)})...`)
+                    })
 
-                    status('Ожидание других файлов...')
+                    cacheAudio('telegram', `${audio.owner_id}_${audio.id}`, {
+                        title: title,
+                        artist: artist,
+                        duration: duration,
+                        audioInfo: audioInfo
+                    }, null, file_id)
+
+                    media[i] = {
+                        type: 'audio',
+                        media: file_id,
+                        title: title,
+                        performer: artist,
+                        duration: duration,
+                        //отключено, т.к. это выглядит ужасно
+                        //caption: getCaption(`${audio.owner_id}_${audio.id}`, audio.audioInfo!),
+                        //parse_mode: 'HTML'
+                    }
+
+                    status('Завершено.')
                 })()
 
                 promises.push(promise)
             } else {
+                media[i] = {
+                    type: 'audio',
+                    media: cached.file_id,
+                    title: cached.title,
+                    performer: cached.artist,
+                    duration: cached.duration,
+                    //отключено, т.к. это выглядит ужасно
+                    //caption: getCaption(`${audio.owner_id}_${audio.id}`, audio.audioInfo!),
+                    //parse_mode: 'HTML'
+                }
+
                 status('Завершено.')
-                audio.title = cached.title
-                audio.artist = cached.artist
-                audio.duration = cached.duration
-                audio.file_id = cached.file_id
-                audio.audioInfo = cached.audioInfo
             }
         }
 
         await Promise.all(promises)
+
         clearInterval(infoInterval)
         await updateStatus()
 
-        const media: InputMediaAudio[] = []
-        const ids: string[] = []
-        for (const i in audios) {
-            const audio = audios[i]
+        if (media.includes(null)) throw new Error('some file is not uploaded')
 
-            ids.push(i)
-
-            if (audio.file_id === undefined) audio.status = 'Ожидание очереди...'
-
-            media.push({
-                type: 'audio',
-                media: audio.file_id === undefined ? {
-                    source: audio.buffer!
-                } : audio.file_id,
-                title: audio.title!,
-                performer: audio.artist!,
-                duration: audio.duration!,
-                //отключено, т.к. это выглядит ужасно
-                //caption: getCaption(`${audio.owner_id}_${audio.id}`, audio.audioInfo!),
-                //parse_mode: 'HTML'
-            })
-        }
-
-        function updateUploadStatus() {
-            const selected = ids.slice(0, 5)
-            for (const i in audios) {
-                if (!selected.includes(i)) continue;
-                if (audios[i].file_id !== undefined) continue;
-                audios[i].status = 'Загрузка в Telegram...'
-            }
-        }
-
-        function setUploadedStatus() {
-            const selected = ids.splice(0, 5)
-            for (const i in audios) {
-                if (!selected.includes(i)) continue;
-                audios[i].status = 'Отправлено.'
-            }
-        }
-
-        await updateStatus()
-
-        while (media.length > 0) {
-            updateUploadStatus()
-            await updateStatus()
-
-            const resArr = await ctx.replyWithMediaGroup(media.splice(0, 5)).catch((err) => { console.error('upload page error:', err) }) as Message.AudioMessage[]
-
-            if (resArr !== undefined) {
-                const selected = ids.slice().splice(0, 5)
-                for (const tga of resArr) {
-                    const i = selected.splice(0, 1)
-                    const audio = audios[+i]
-                    if (audio.file_id !== undefined) continue;
-
-                    if (tga === undefined) continue;
-
-                    cacheAudio('telegram', `${audio.owner_id}_${audio.id}`, {
-                        title: audio.title!,
-                        artist: audio.artist!,
-                        duration: audio.duration!,
-                        audioInfo: audio.audioInfo!
-                    }, null, tga.audio.file_id)
-                }
-
-            }
-
-            setUploadedStatus()
-            await updateStatus()
-
-            if (media.length > 0) setStatus()
-        }
+        await ctx.replyWithMediaGroup(media as InputMediaAudio[])
 
         clearInterval(send_status)
 
