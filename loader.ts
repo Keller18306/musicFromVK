@@ -22,6 +22,8 @@ export function getCommands() {
         cmds[cmd.id] = cmd
     }
 
+    console.log(`Loaded ${Object.keys(cmds).length} commands`)
+
     return cmds
 }
 
@@ -44,6 +46,8 @@ export function getCallbacks() {
         callbacks[cb.id] = cb
     }
 
+    console.log(`Loaded ${Object.keys(callbacks).length} callbacks`)
+
     return callbacks
 }
 
@@ -65,6 +69,8 @@ export function getInlines() {
 
         inlines[inline.id] = inline
     }
+
+    console.log(`Loaded ${Object.keys(inlines).length} inlines`)
 
     return inlines
 }
