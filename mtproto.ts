@@ -51,10 +51,12 @@ export async function uploadAudioFile(buffer: Buffer, params: { name: string, ti
 
     sendCb()
 
+    const sender = await mtproto._borrowExportedSender(mtproto.session.dcId)
+
     for (let part = 0; part < partsCount; part++) {
         const bufferPart: Buffer = buffer.slice(partSize * part, partSize * (part + 1))
 
-        await mtproto.invoke(isBig ? new Api.upload.SaveBigFilePart({
+        const res = await sender.send(isBig ? new Api.upload.SaveBigFilePart({
             fileId: file_id,
             filePart: part,
 
@@ -66,7 +68,7 @@ export async function uploadAudioFile(buffer: Buffer, params: { name: string, ti
             filePart: part,
 
             bytes: bufferPart
-        }))
+        })) as Api.Bool
 
         sendCb(part + 1)
     }
@@ -74,7 +76,11 @@ export async function uploadAudioFile(buffer: Buffer, params: { name: string, ti
     const result = await mtproto.invoke(new Api.messages.UploadMedia({
         peer: new Api.InputPeerSelf(),
         media: new Api.InputMediaUploadedDocument({
-            file: new Api.InputFile({
+            file: isBig ? new Api.InputFileBig({
+                id: file_id,
+                parts: partsCount,
+                name: params.name
+            }) : new Api.InputFile({
                 id: file_id,
                 parts: partsCount,
                 name: params.name,
