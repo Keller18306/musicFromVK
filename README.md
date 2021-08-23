@@ -76,7 +76,8 @@ export const config: Config = {
     api_id: 1234567, //API Id приложения MTProto
     api_hash: '826dbdaa1540d406ae3090add1805794', //API Hash приложения MTProto
     tg_token: '1234567890:3KojcGP79eGW44UffUtf8Zabt_9ui7pOY80', //Токен от телеграм бота
-    vk_token: '6be59d30e6b346f17c4ca695df004f228379b78c261b0468b55da6f6dbfff5468beffa5c1dae4c0009ffa' //Токен от аккаунта вк
+    vk_token: '6be59d30e6b346f17c4ca695df004f228379b78c261b0468b55da6f6dbfff5468beffa5c1dae4c0009ffa', //Токен от аккаунта вк
+    uploadThreads: 3 //Сколько одновременно частей загружать на сервер телеграм
 }
 ```
 Получить данные для MTProto можно тут: https://my.telegram.org/
