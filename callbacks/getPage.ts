@@ -33,7 +33,7 @@ export default class Callback extends BaseCallback {
         return parsed
     }
 
-    async handler({ tg, ctx, payload }: HandlerParams) {
+    async handler({ tg, ctx, setList, payload }: HandlerParams) {
         const args = payload.split('|')
         const { method, page } = this.payloadParser(payload)
 
@@ -145,12 +145,15 @@ export default class Callback extends BaseCallback {
 
         await updateStatus()
         const infoInterval: NodeJS.Timeout = setInterval(updateStatus, 500)
+        setList.setIntervals.push(infoInterval)
+        
 
         async function setStatus() {
             return ctx.tg.sendChatAction(ctx.chat!.id, 'upload_document').catch(() => { })
         }
         setStatus()
         const send_status: NodeJS.Timeout = setInterval(setStatus, 4e3)
+        setList.setIntervals.push(send_status)
 
         const promises: Promise<any>[] = []
         const media: (InputMediaAudio | null)[] = []

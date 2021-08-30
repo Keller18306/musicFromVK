@@ -55,12 +55,23 @@ tg.on('callback_query', async (ctx) => {
     console.log(data.data);
 
     (async () => {
+        const setList: {
+            setTimeouts: NodeJS.Timeout[],
+            setIntervals: NodeJS.Timeout[]
+        } = {
+            setTimeouts: [],
+            setIntervals: []
+        }
+
         try {
-            await cb.handler({ tg, ctx, payload: data.data! })
+            await cb.handler({ tg, ctx, setList, payload: data.data! })
         } catch (e) {
             console.error(id, e)
             ctx.reply(`Произошла ошибка во время выполнения Callback #${id}: ${e.toString()}`)
         }
+
+        for(const timeout of setList.setTimeouts) clearTimeout(timeout)
+        for(const interval of setList.setIntervals) clearInterval(interval)
     })();
 
     return;
@@ -105,12 +116,23 @@ tg.on('text', async (ctx) => {
                 console.log(command);
 
                 (async () => {
+                    const setList: {
+                        setTimeouts: NodeJS.Timeout[],
+                        setIntervals: NodeJS.Timeout[]
+                    } = {
+                        setTimeouts: [],
+                        setIntervals: []
+                    }
+
                     try {
-                        await cmd.handler({ tg, ctx })
+                        await cmd.handler({ tg, ctx, setList })
                     } catch (e) {
                         console.error(id, e)
                         ctx.reply(`Произошла ошибка во время выполнения Command #${id}: ${e.toString()}`)
                     }
+
+                    for(const timeout of setList.setTimeouts) clearTimeout(timeout)
+                    for(const interval of setList.setIntervals) clearInterval(interval)
                 })()
 
                 return;
@@ -142,12 +164,23 @@ tg.on('text', async (ctx) => {
                 console.log(command);
 
                 (async () => {
+                    const setList: {
+                        setTimeouts: NodeJS.Timeout[],
+                        setIntervals: NodeJS.Timeout[]
+                    } = {
+                        setTimeouts: [],
+                        setIntervals: []
+                    }
+
                     try {
-                        await cmd.handler({ tg, ctx })
+                        await cmd.handler({ tg, ctx, setList })
                     } catch (e) {
                         console.error(id, e)
                         ctx.reply(`Произошла ошибка во время выполнения Command #${id}: ${e.toString()}`)
                     }
+
+                    for(const timeout of setList.setTimeouts) clearTimeout(timeout)
+                    for(const interval of setList.setIntervals) clearInterval(interval)
                 })()
 
                 return;

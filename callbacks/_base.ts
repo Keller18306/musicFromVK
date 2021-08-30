@@ -20,6 +20,10 @@ type MatchedContext<
 export type HandlerParams = {
     tg: Telegraf,
     ctx: MatchedContext<Context, 'callback_query'>,
+    setList: {
+        setTimeouts: NodeJS.Timeout[],
+        setIntervals: NodeJS.Timeout[]
+    },
     payload: string
 }
 

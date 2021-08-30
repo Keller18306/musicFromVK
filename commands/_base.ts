@@ -33,7 +33,11 @@ type MatchedContext<
 
 export type HandlerParams = {
     tg: Telegraf,
-    ctx: MatchedContext<Context, 'text'>
+    ctx: MatchedContext<Context, 'text'>,
+    setList: {
+        setTimeouts: NodeJS.Timeout[],
+        setIntervals: NodeJS.Timeout[]
+    }
 }
 
 export default abstract class BaseCommand {

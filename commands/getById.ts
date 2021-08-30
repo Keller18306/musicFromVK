@@ -42,7 +42,7 @@ export default class CMD extends BaseCommand {
         return parsed
     }
 
-    async handler({ tg, ctx }: HandlerParams) {
+    async handler({ tg, ctx, setList }: HandlerParams) {
         const payload = ctx.message.text.split(' ').slice(1).join(' ')
 
         if(payload === '') return ctx.reply('audio is empty')
@@ -61,6 +61,7 @@ export default class CMD extends BaseCommand {
         if (typeof ctx.from?.id == 'number') {
             setStatus()
             send_status = setInterval(setStatus, 4e3)
+            setList.setIntervals.push(send_status)
         }
 
         const audio = `${owner_id}_${id}`

@@ -33,7 +33,7 @@ export default class Callback extends BaseCallback {
         return parsed
     }
 
-    async handler({ tg, ctx, payload }: HandlerParams) {
+    async handler({ tg, ctx, setList, payload }: HandlerParams) {
         const { owner_id, audio_id: id, access_key, showDelete } = this.payloadParser(payload)
 
         if (isNaN(owner_id)) return;
@@ -48,6 +48,7 @@ export default class Callback extends BaseCallback {
         if (typeof ctx.from?.id == 'number') {
             setStatus()
             send_status = setInterval(setStatus, 4e3)
+            setList.setIntervals.push(send_status)
         }
 
         const audio = `${owner_id}_${id}`
