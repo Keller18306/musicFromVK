@@ -1,7 +1,7 @@
 import { Composer, Telegraf } from 'telegraf'
 import { BotCommand, CallbackQuery, InlineQueryResultArticle } from 'typegram';
 import { getCommands, getCallbacks, getInlines } from './loader';
-import BaseCommand from './commands/_base';
+import BaseCommand, { Command, Message } from './commands/_base';
 import BaseCallback from './callbacks/_base';
 import BaseInline from './inline/_base';
 import { getUserPermissions, noPerm } from './permissions';
@@ -70,8 +70,8 @@ tg.on('callback_query', async (ctx) => {
             ctx.reply(`Произошла ошибка во время выполнения Callback #${id}: ${e.toString()}`)
         }
 
-        for(const timeout of setList.setTimeouts) clearTimeout(timeout)
-        for(const interval of setList.setIntervals) clearInterval(interval)
+        for (const timeout of setList.setTimeouts) clearTimeout(timeout)
+        for (const interval of setList.setIntervals) clearInterval(interval)
     })();
 
     return;
@@ -89,102 +89,52 @@ tg.on('text', async (ctx) => {
     for (const id in cmds) {
         const cmd = cmds[id]
 
-        if (isCommand) {
-            for (const icmd of cmd.commands) {
-                let command: string = message.substr(1)
-                let sysCommand: string = icmd.command
+        for (const icmd of isCommand ? cmd.commands : cmd.messages) {
+            let command: string = isCommand ? message.substr(1) : message
+            let sysCommand: string = isCommand ? (icmd as Command).command : (icmd as Message).message
 
-                if (!icmd.caseSensitive) {
-                    command = command.toLowerCase()
-                    sysCommand = sysCommand.toLowerCase()
-                }
-
-                if (icmd.startsWith) {
-                    command = command.split(' ')[0]
-                }
-
-                if (command != sysCommand) continue;
-
-                if (cmd.permission === null) return ctx.reply('Для данной команды ещё не настроены права')
-
-                const uPerms = getUserPermissions(ctx.message.from.id)
-
-                if (cmd.permission !== true && !uPerms.permissions.includes(cmd.permission)) return ctx.reply(
-                    `Ваш аккаунт или ваша группа "${uPerms.group}" не имеет разрешения "${cmd.permission}".`
-                );
-
-                console.log(command);
-
-                (async () => {
-                    const setList: {
-                        setTimeouts: NodeJS.Timeout[],
-                        setIntervals: NodeJS.Timeout[]
-                    } = {
-                        setTimeouts: [],
-                        setIntervals: []
-                    }
-
-                    try {
-                        await cmd.handler({ tg, ctx, setList })
-                    } catch (e) {
-                        console.error(id, e)
-                        ctx.reply(`Произошла ошибка во время выполнения Command #${id}: ${e.toString()}`)
-                    }
-
-                    for(const timeout of setList.setTimeouts) clearTimeout(timeout)
-                    for(const interval of setList.setIntervals) clearInterval(interval)
-                })()
-
-                return;
+            if (!icmd.caseSensitive) {
+                command = command.toLowerCase()
+                sysCommand = sysCommand.toLowerCase()
             }
-        } else {
-            for (const icmd of cmd.messages) {
-                let command: string = message
-                let sysCommand: string = icmd.message
 
-                if (!icmd.caseSensitive) {
-                    command = command.toLowerCase()
-                    sysCommand = sysCommand.toLowerCase()
-                }
-
-                if (icmd.startsWith) {
-                    command = command.split(' ')[0]
-                }
-
-                if (command != sysCommand) continue;
-
-                if (cmd.permission === null) return ctx.reply('Для данной команды ещё не настроены права')
-
-                const uPerms = getUserPermissions(ctx.message.from.id)
-
-                if (cmd.permission !== true && !uPerms.permissions.includes(cmd.permission)) return ctx.reply(
-                    `Ваш аккаунт или ваша группа "${uPerms.group}" не имеет разрешения "${cmd.permission}".`
-                );
-
-                console.log(command);
-
-                (async () => {
-                    const setList: {
-                        setTimeouts: NodeJS.Timeout[],
-                        setIntervals: NodeJS.Timeout[]
-                    } = {
-                        setTimeouts: [],
-                        setIntervals: []
-                    }
-
-                    try {
-                        await cmd.handler({ tg, ctx, setList })
-                    } catch (e) {
-                        console.error(id, e)
-                        ctx.reply(`Произошла ошибка во время выполнения Command #${id}: ${e.toString()}`)
-                    }
-
-                    for(const timeout of setList.setTimeouts) clearTimeout(timeout)
-                    for(const interval of setList.setIntervals) clearInterval(interval)
-                })()
-
-                return;
+            if (icmd.startsWith) {
+                command = command.split(' ')[0]
             }
+
+            if (command != sysCommand) continue;
+
+            if (cmd.permission === null) return ctx.reply('Для данной команды ещё не настроены права')
+
+            const uPerms = getUserPermissions(ctx.message.from.id)
+
+            if (cmd.permission !== true && !uPerms.permissions.includes(cmd.permission)) return ctx.reply(
+                `Ваш аккаунт или ваша группа "${uPerms.group}" не имеет разрешения "${cmd.permission}".`
+            );
+
+            console.log(command);
+
+            (async () => {
+                const setList: {
+                    setTimeouts: NodeJS.Timeout[],
+                    setIntervals: NodeJS.Timeout[]
+                } = {
+                    setTimeouts: [],
+                    setIntervals: []
+                }
+
+                try {
+                    await cmd.handler({ tg, ctx, setList })
+                } catch (e) {
+                    console.error(id, e)
+                    ctx.reply(`Произошла ошибка во время выполнения Command #${id}: ${e.toString()}`)
+                }
+
+                for (const timeout of setList.setTimeouts) clearTimeout(timeout)
+                for (const interval of setList.setIntervals) clearInterval(interval)
+            })()
+
+            return;
         }
     }
     //console.log(cmds)
