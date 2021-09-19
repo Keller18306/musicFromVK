@@ -45,7 +45,7 @@ export default class CMD extends BaseCommand {
 
         text = text.replace(/ /g, '')
 
-        const allowStrings: string = '0123456789+-*/():^×÷ekк'
+        const allowStrings: string = '0123456789+-*/():^×÷ekк,.'
         let allowed: boolean = true
         for (const char of text) {
             if (allowStrings.includes(char)) continue;
@@ -64,7 +64,8 @@ export default class CMD extends BaseCommand {
             '÷': '/',
             ':': '/',
             'k': '000',
-            'к': '000'
+            'к': '000',
+            ',': '.'
         }
 
         for (const from in replace) {
@@ -94,7 +95,7 @@ export default class CMD extends BaseCommand {
             result = await runInNewContext(text, undefined, {
                 timeout: 100
             })
-        } catch (e) {
+        } catch (e: any) {
             error = e.toString()
         }
 
