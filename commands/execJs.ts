@@ -46,7 +46,7 @@ export default class CMD extends BaseCommand {
             result = await runInNewContext(text, undefined, {
                 timeout: this.jsCFG.timeout
             })
-        } catch (e) {
+        } catch (e: any) {
             error = e.toString()
         }
         execTime = new Date().getTime() - execTime
