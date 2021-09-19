@@ -65,7 +65,7 @@ tg.on('callback_query', async (ctx) => {
 
         try {
             await cb.handler({ tg, ctx, setList, payload: data.data! })
-        } catch (e) {
+        } catch (e: any) {
             console.error(id, e)
             ctx.reply(`Произошла ошибка во время выполнения Callback #${id}: ${e.toString()}`)
         }
@@ -90,7 +90,7 @@ tg.on('text', async (ctx) => {
         const cmd = cmds[id]
 
         for (const icmd of isCommand ? cmd.commands : cmd.messages) {
-            let command: string = isCommand ? message.substr(1) : message
+            let command: string = isCommand ? message.substr(1).replace(new RegExp(`@${tg.botInfo?.username}`, 'i'),'') : message
             let sysCommand: string = isCommand ? (icmd as Command).command : (icmd as Message).message
 
             if (!icmd.caseSensitive) {
@@ -125,7 +125,7 @@ tg.on('text', async (ctx) => {
 
                 try {
                     await cmd.handler({ tg, ctx, setList })
-                } catch (e) {
+                } catch (e: any) {
                     console.error(id, e)
                     ctx.reply(`Произошла ошибка во время выполнения Command #${id}: ${e.toString()}`)
                 }
